@@ -1,0 +1,93 @@
+###############################################################
+##### CREATE JENKINS MASTER INSTANCE
+  add port 8080 to the security groups 
+  allow all the traffic
+  
+####### DO THE FOLLOWING STEPS IN MOBAXTERM ####
+  
+sudo -i 
+
+# Install Java :::
+
+sudo apt update
+sudo apt install openjdk-17-jre
+java -version
+
+
+# Install Jenkins :::
+
+
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
+
+jenkins --version 
+
+
+systemctl status jenkins
+systemctl start jenkins
+systemctl restart jenkins
+systemctl stop jenkins
+systemctl enable jenkins
+
+	<public_ip_Address>:8080 
+
+### Install git 
+  apt install git -y
+  git --version
+  (create access token in developer settings for future references)
+
+### Install maven
+  apt install maven 
+  mvn --version
+  (get the version name and path of the file for jenkins tool configuration )
+
+#########################################################################################################################################
+###### CREATE TOMCAT INSTANCE
+  add port 8080 to the security groups 
+  all the traffic 
+ 
+sudo -i
+sudo apt update -y
+sudo apt install openjdk-11-jre -y 
+java -version
+
+#edit /etc/profile & add JAVA_HOME
+
+#/usr/lib/jvm/java-17-openjdk-amd64/
+
+vi /etc/profile
+
+export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+
+source /etc/profile (use command for immediate effect) 
+
+Install Tomcat ::  https://tomcat.apache.org/download-80.cgi
+
+#https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5.93.tar.gz(by right clicking on the tar file from the tomcat website)
+
+cd /opt
+
+wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5.93.tar.gz
+
+tar -xvzf /opt/apache-tomcat-8.5.93.tar.gz(to extract file from zip)
+
+mv apache-tomcat-8.5.93 tomcat(rename the extracted file, NOT zip file)
+
+#Start Tomcat Server:
+#Goto:
+
+cd /opt/tomcat/bin
+./startup.sh
+
+###########################################################################################################################
+
+#### Jenkins Configuration
+  install the required plugins (maven,pipeline, docker, sonar-scanner, kubernetes, )
+  tools configuration
+  
