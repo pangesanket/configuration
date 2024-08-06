@@ -46,6 +46,9 @@ systemctl enable jenkins
   mvn --version
   (get the version name and path of the file for jenkins tool configuration )
 
+##### User add
+ssh-keygen -t ecdsa -b 521   (for ubuntu and higher version)
+
 #########################################################################################################################################
 ###### CREATE TOMCAT INSTANCE
   add port 8080 to the security groups 
