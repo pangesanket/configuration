@@ -65,19 +65,19 @@ vi /etc/profile
 export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
 
-source /etc/profile (use command for immediate effect) 
+source /etc/profile    (use command for immediate effect) 
 
 Install Tomcat ::  https://tomcat.apache.org/download-80.cgi
 
-#https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5.93.tar.gz(by right clicking on the tar file from the tomcat website)
+#https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5.93.tar.gz   (by right clicking on the tar file from the tomcat website)
 
 cd /opt
 
 wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5.93.tar.gz
 
-tar -xvzf /opt/apache-tomcat-8.5.93.tar.gz(to extract file from zip)
+tar -xvzf /opt/apache-tomcat-8.5.93.tar.gz  (to extract file from zip)
 
-mv apache-tomcat-8.5.93 tomcat(rename the extracted file, NOT zip file)
+mv apache-tomcat-8.5.93 tomcat  (rename the extracted file, NOT zip file)
 
 #Start Tomcat Server:
 #Goto:
@@ -89,5 +89,50 @@ cd /opt/tomcat/bin
 
 #### Jenkins Configuration
   install the required plugins (maven,pipeline, docker, sonar-scanner, kubernetes, )
-  tools configuration
+  
+
+---> tools configuration:
+  jdk :- give name 
+        add installer and select the version
+ maven :- add name
+          add path 
+      or else  select version
+
+----> Credential configuration:
+                            Add git credentials through access token 
+                            
+
+##############################################################################################################################
+
+SAMPLE PIPELINE
+pipeline {
+
+    agent { label 'java-slave1' }
+	
+    tools {
+        maven "maven-3.6.3"
+    }	
+	
+    stages {
+        stage('SCM Checkout') {
+            steps {
+                echo 'Hello World'
+				git 'https://github.com/LoksaiETA/Java-mvn-app2.git'  ##(if repo is public) ##(use script for private repo)
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Perform Maven Build'
+				sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+            }
+        }
+        stage('Deploy to QA Server') {
+            steps {
+				script {
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'QA-Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'target/', sourceFiles: 'target/mvn-hello-world.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+				}
+            }
+        }
+    }
+}		
   
