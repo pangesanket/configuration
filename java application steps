@@ -164,4 +164,39 @@ pipeline {
         }
     }
 }		
-  
+
+##############################################################################################################
+pipeline {
+    agent any
+    
+    tools{
+        maven 'maven3'
+    }
+
+    stages {
+        stage('SCM_Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git_cred', url: 'https://github.com/pangesanket/dummy-question-pattern.git'
+            }
+        }
+        stage('App_Build') {
+            steps {
+                echo 'Perform Maven Build'
+				sh 'mvn clean package'
+            }
+        }
+        stage('Deploy to QA Environment') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
+###########################################33333333
+
+
+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
+
+
+/var/lib/jenkins/workspace/pipeline/target/dummy-question-0.0.1-SNAPSHOT.jar
+
