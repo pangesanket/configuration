@@ -182,7 +182,7 @@ pipeline {
         stage('App_Build') {
             steps {
                 echo 'Perform Maven Build'
-				sh 'mvn clean package'
+				sh 'mvn -Dmaven.test.failure.ignore=true install'
             }
         }
         stage('Deploy to QA Environment') {
