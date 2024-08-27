@@ -197,6 +197,8 @@ pipeline {
 
 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 (github token)
 
+dckr_pat_ArwgH83ux0zWa3NusROlVgzctus   (docker access token)
+
 
 /var/lib/jenkins/workspace/pipeline/target/dummy-question-0.0.1-SNAPSHOT.jar
 
@@ -229,4 +231,17 @@ pipeline {
         }
     }
 }
-
+        stage("Docker Build & Push"){
+            steps{
+                withDockerRegistry(credentialsId: '4d18ebff-ca98-46ad-b76c-8330a16ac3c3', url: 'https://hub.docker.com/repositories/pangesanket55/') {
+                    sh "docker build -t demonodejs  . "
+                    sh "docker tag demonodejs pangesanket55/NodeJS:latest "
+                    sh "docker push pangesanket55/NodeJS:latest "
+                }
+            }
+        }
+        stage('docker deploy'){
+            steps {
+                
+            }
+        }
