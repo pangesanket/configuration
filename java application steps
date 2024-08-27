@@ -200,3 +200,33 @@ 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 (github token)
 
 /var/lib/jenkins/workspace/pipeline/target/dummy-question-0.0.1-SNAPSHOT.jar
 
+###################################################################################
+NodeJS 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pipeline {
+    agent any
+    
+    tools {
+        nodejs 'NodeJS-22'
+    }
+
+    stages {
+        stage('SCM checkout') {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/pangesanket/docker-react-app-test.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install -g serve'
+            }
+        }
+        stage("OWASP Dependency Check"){
+            steps{
+                dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'DP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+    }
+}
+
