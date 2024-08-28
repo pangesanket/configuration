@@ -24,10 +24,10 @@ sudo systemctl status jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 IN JENKINS PORTAL
 manage plugins:
--sonar-scanner  (secret text -credentials)
+-sonar-scanner  (secret text -credentials)  [run it through docker image in server]
 -jdk temurin
 -maven
--docker
+-docker   (username password -credentials)
 -pipeline view
 -docker api
 -openssh (it is used to cononect source server to target server)
@@ -39,10 +39,17 @@ TOOLS CONFIGURATION
 -sonar-scanner
 -owasp dependency check
 
+{tools are installed in /usr/ ----MOBAXTERM}
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CREDENTIALS MANAGEMENT
 
 -git(username password)
 -sonar-scanner(secret text)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NODE CONFIGURATION
+ssh with private key
+
 
 
