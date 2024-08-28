@@ -36,6 +36,8 @@ manage plugins:
 TOOLS CONFIGURATION
 -jdk 
 -maven
+-sonar-scanner
+-owasp dependency check
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CREDENTIALS MANAGEMENT
