@@ -1,1 +1,46 @@
+enable port 8080 in ec2 security groups
+
+sudo -i
+apt update -y
+
+apt install openjdk-17-jre -y
+apt install maven -y
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update
+
+sudo apt-get install jenkins -y
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+IN JENKINS PORTAL
+manage plugins:
+-sonar-scanner  (secret text -credentials)
+-jdk temurin
+-maven
+-docker
+-pipeline view
+-docker api
+-openssh (it is used to cononect source server to target server)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TOOLS CONFIGURATION
+-jdk 
+-maven
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CREDENTIALS MANAGEMENT
+
+-git(username password)
+-sonar-scanner(secret text)
+
 
