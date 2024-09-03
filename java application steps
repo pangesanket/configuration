@@ -245,3 +245,10 @@ pipeline {
                 
             }
         }
+
+
+
+
+
+
+/var/lib/jenkins/workspace/devops-learning/target/spring-boot-jenkins-pipeline.jar
