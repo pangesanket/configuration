@@ -199,6 +199,10 @@ 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 (github token)
 
 dckr_pat_ArwgH83ux0zWa3NusROlVgzctus   (docker access token)
 
+GITHUB username and access token 
+DOCKER username and password
+
+
 
 /var/lib/jenkins/workspace/pipeline/target/dummy-question-0.0.1-SNAPSHOT.jar
 
