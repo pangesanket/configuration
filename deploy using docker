@@ -1,0 +1,56 @@
+
+Deploy the application in the samea server using tomcat image and copy the artifacts in the tomcat container 
+
+
+
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'tomcat:9.0' // The version of Tomcat to use
+        APP_NAME = 'myapp' // Name of your WAR file
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Application') {
+            steps {
+                script {
+                    // Assuming you are using Maven
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Pull Tomcat Docker Image') {
+            steps {
+                script {
+                    sh "docker pull ${DOCKER_IMAGE}"
+                }
+            }
+        }
+
+        stage('Deploy Application to Docker Container') {
+            steps {
+                script {
+                    // Stop and remove existing container (if any)
+                    sh "docker stop ${APP_NAME} || true"
+                    sh "docker rm ${APP_NAME} || true"
+
+                    // Run a new Tomcat container
+                    sh """
+                    docker run -d --name ${APP_NAME} -p 8080:8080 ${DOCKER_IMAGE}
+                    """
+
+                    // Copy the WAR file to the Tomcat container's webapps directory
+                    sh "docker cp target/${APP_NAME}.war ${APP_NAME}:/usr/local/tomcat/webapps/"
+                }
+            }
+        }
+    }
+}
