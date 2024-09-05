@@ -212,47 +212,52 @@ NodeJS
 pipeline {
     agent any
     
-    tools {
-        nodejs 'NodeJS-22'
+    tools{
+        nodejs 'nodejs'
     }
 
     stages {
         stage('SCM checkout') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/pangesanket/docker-react-app-test.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/pangesanket/NodeJS.git'
             }
         }
-        stage('Install Dependencies') {
+        stage('build') {
             steps {
                 sh 'npm install -g serve'
             }
         }
-        stage("OWASP Dependency Check"){
+        stage("Docker Build & Push"){
             steps{
-                dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'DP'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                script{
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+                        sh "docker build -t demonodejs  . "
+                        sh "docker tag demonodejs pangesanket55/nodejs:latest "
+                        sh "docker push pangesanket55/nodejs:latest "
+                    }
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+                        sh 'docker run -d --name nodejs -p 3000:3000 pangesanket55/nodejs:latest'
+                    }
+                }
             }
         }
     }
 }
-        stage("Docker Build & Push"){
-            steps{
-                withDockerRegistry(credentialsId: '4d18ebff-ca98-46ad-b76c-8330a16ac3c3', url: 'https://hub.docker.com/repositories/pangesanket55/') {
-                    sh "docker build -t demonodejs  . "
-                    sh "docker tag demonodejs pangesanket55/NodeJS:latest "
-                    sh "docker push pangesanket55/NodeJS:latest "
-                }
-            }
-        }
-        stage('docker deploy'){
-            steps {
-                
-            }
-        }
 
 
-
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
 /var/lib/jenkins/workspace/devops-learning/target/spring-boot-jenkins-pipeline.jar
+
+
+python    pip
+java      maven 
+nodejs    npm
+c#        DOTNET
