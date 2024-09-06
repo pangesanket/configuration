@@ -287,3 +287,100 @@ Then you can join any number of worker nodes by running the following on each as
 
 kubeadm join 172.31.4.109:6443 --token ho3h0s.3mmairmvmglw8c0y \
         --discovery-token-ca-cert-hash sha256:deef983acc171e5c0ffcf11a1f2197faf79339ebf27b76fb777f705dc62d43a1  (coomand in worker node)
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#######################################################
+
+SAMPLE YAML FILE
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: production
+  labels:
+    app: myapp
+spec:
+  replicas: 5  # Number of pod replicas
+  selector:
+    matchLabels:
+      app: myapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myrepo/myapp:latest # Docker image for the application
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: production
+spec:
+  type: LoadBalancer # Could also be ClusterIP or NodePort depending on your needs
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  namespace: production
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-service
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - myapp.example.com
+    secretName: myapp-tls
