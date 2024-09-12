@@ -1,0 +1,21 @@
+version: '3.8'  # Define the Compose file version
+
+services:  # Define the services that make up your application
+  web:  # Name of the service
+    image: nginx:latest  # Docker image to use
+    ports: 
+      - "8080:80"  # Map port 8080 on the host to port 80 in the container
+    volumes:
+      - ./html:/usr/share/nginx/html  # Mount local directory to container
+  
+  db:  # Another service (e.g., a database)
+    image: postgres:latest  # Docker image to use
+    environment:  # Environment variables for the service
+      POSTGRES_DB: exampledb
+      POSTGRES_USER: exampleuser
+      POSTGRES_PASSWORD: examplepass
+    volumes:
+      - db-data:/var/lib/postgresql/data  # Named volume for persisting data
+
+volumes:  # Define named volumes
+  db-data:
