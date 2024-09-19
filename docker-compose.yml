@@ -19,3 +19,35 @@ services:  # Define the services that make up your application
 
 volumes:  # Define named volumes
   db-data:
+
+
+
+####################################################################################################
+
+Version:
+services:
+   web:
+      container_name: tomcat
+      image: pangesanket55/tomcat
+      build:
+          context: /app
+      command:
+      environment :
+          -
+      port:
+          - 8080:8080
+      restart: unless-stopped 
+      network: net-name
+      volumes:
+   app:
+      container_name:
+      image:
+      port:
+      networks: net-name
+      volumes:
+
+networks:
+   net-name:
+       driver: bridge
+   
+
