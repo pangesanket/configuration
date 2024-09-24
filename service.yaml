@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata: 
+    name:
+    labels: 
+      app: 
+spec:
+  type: ClusterIP, NodePort, LoadBalancer
+  ports:
+    port:
+    targetPort:
+    nodePort:
+  selectors:
+    matchlabs:
+      name:
+      app: 
