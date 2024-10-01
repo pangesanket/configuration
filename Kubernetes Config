@@ -172,7 +172,7 @@ spec:
   - hosts:
     - myapp.example.com
     secretName: myapp-tls
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 apiVersion: v1
 kind: pod
 metadata:
@@ -184,7 +184,21 @@ spec:
       - name:
         image: 
         port:
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: production
+spec:
+  type: LoadBalancer # Could also be ClusterIP or NodePort depending on your needs
+  selector:
+    app: myapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 apiVersion: apps/v1
 kind: Deployment
 matadata: 
@@ -197,7 +211,21 @@ spec:
      matchlabels:
    template:
      (pod matadata)
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+apiVersion: apps/v1
+kind: ReplicaSet
+matadata: 
+  name:
+  labels:
+     app: 
+spec: 
+   replica: 
+   selectors:
+     matchlabels:
+        app:
+   template:
+     (pod matadata)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
 
 #######################################################################################3333333333###########
 
@@ -258,8 +286,6 @@ kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-d
 ## Make necessary changes to the file (for example, adding more replicas) and then create the deployment.
 
 kubectl create -f nginx-deployment.yaml
-
-
 
 OR
 
@@ -563,4 +589,8 @@ kubeadm join 172.31.4.109:6443 --token ho3h0s.3mmairmvmglw8c0y \
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #######################################################
+
+
+30000-32767 port range for nodeport service to expose application
+https:workernodeIP:nodePortIP
 
