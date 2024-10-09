@@ -1,0 +1,22 @@
+GRAFANA PORT 3000
+
+### INSTALLATION
+sudo apt-get install -y adduser libfontconfig1 musl
+wget https://dl.grafana.com/enterprise/release/grafana-enterprise_11.2.2_amd64.deb
+sudo dpkg -i grafana-enterprise_11.2.2_amd64.deb
+
+
+### NOT starting on installation, please execute the following statements to configure grafana to start automatically using systemd
+ sudo /bin/systemctl daemon-reload
+ sudo /bin/systemctl enable grafana-server
+
+### You can start grafana-server by executing
+ sudo /bin/systemctl start grafana-server
+
+
+
+
+IN GRAFANA SERVER
+## setup datasources 
+install github pugin
+In dashboard import with ID
