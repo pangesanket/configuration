@@ -190,3 +190,77 @@ pipeline {
         }
     }
 }
+
+##################################################################################################################3
+
+BANKAPP PROJECT
+
+pipeline {
+    agent any
+    
+    tools{
+        jdk 'jdk17'
+        maven 'maven3'
+    }
+
+    stages {
+        stage('SCM checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/jaiswaladi246/Multi-Tier-With-Database.git'
+            }
+        }
+        stage('compile') {
+            steps {
+                sh "mvn compile"
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'mvn test -DskipTests=true'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'mvn clean package -DskipTests=true'
+            }
+        }
+        stage('build docker image') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                        sh 'docker build -t pangesanket55/bankapp:${BUILD_NUMBER} .'
+                        sh 'docker tag pangesanket55/bankapp:${BUILD_NUMBER} pangesanket55/bankapp:latest'
+                    }
+                }
+            }
+        }    
+        stage('build push image') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                        sh 'docker push pangesanket55/bankapp:latest'
+                    }
+                }
+                
+            }
+        }
+        stage('k8s-deploy') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: ' devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://EDAAE6146B7D210666010687B167683D.gr7.ap-south-1.eks.amazonaws.com') {
+                    sh 'kubectl apply -f ds.yml -n webapps'
+                    sleep 30
+                }
+            }
+        }
+        stage('verify-deploy') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: ' devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://EDAAE6146B7D210666010687B167683D.gr7.ap-south-1.eks.amazonaws.com') {
+                    sh 'kubectl get pods -n webapps'
+                    sh 'kubectl get svc -n webapps'
+                }
+            }
+        }
+    }
+}
+
+
