@@ -47,7 +47,7 @@ sudo apt upgrade -y
 
 sudo apt install apt-transport-https curl -y
 
-## DOCKER
+   DOCKER
 
 sudo apt-get update
 sudo apt-get install ca-certificates curl
@@ -55,7 +55,7 @@ sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
+ Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
@@ -68,7 +68,7 @@ sudo apt-get update
 sudo usermod -aG docker $USER
 sudo reboot
 
-##CONTAINER_D
+  CONTAINER_D
 
 sudo apt install containerd -y
 
@@ -77,7 +77,7 @@ containerd config default | sudo tee /etc/containerd/config.toml > /dev/null
 sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
 sudo systemctl restart containerd
 
-## KUBERNETES
+  KUBERNETES
 
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
@@ -85,12 +85,12 @@ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
 
-## SWAP
+   SWAP
 
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-## KERNEL MODULE
+   KERNEL MODULE
 
 sudo modprobe overlay
 sudo modprobe br_netfilter
@@ -103,7 +103,7 @@ EOF
 
 sudo sysctl --system
 
-
+   IN MASTER ONLY
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 (ONLY MASTER-NODE)
 
 mkdir -p $HOME/.kube
