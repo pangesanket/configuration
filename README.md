@@ -1,7 +1,7 @@
-# Configuration
+# CONFIGURATION
 
 
-# Docker
+# DOCKER
 sudo apt update -y
 
 sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
@@ -19,13 +19,25 @@ sudo apt install docker-ce -y
 sudo usermod -aG docker $USER 
 sudo chmod 777 /var/run/docker.sock
 
-# Docker-Compose
+# DOCKER-COMPOSE
 
 sudo apt update
 
 sudo apt install docker-compose-v2 -y
 
-# Jenkins
+## BUILD-PACK CLI  (build image without Dockerfile)
+
+sudo apt install dokcer.io -y
+sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+sudo apt-get update
+sudo apt-get install pack-cli
+
+pack build suggest (to suggest builder)
+
+pack build --builder=<your-builder-from-above-command> <image-name>
+
+
+# JENKINS
 sudo apt update -y
 sudo apt install fontconfig openjdk-17-jre -y
 
