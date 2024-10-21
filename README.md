@@ -139,6 +139,21 @@ chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin
 kubectl version --short --client
 
+## EKSCTL 
+#for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
+ARCH=amd64
+PLATFORM=$(uname -s)_$ARCH
+
+curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+
+#(Optional) Verify checksum
+curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+
+tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+
+sudo mv /tmp/eksctl /usr/local/bin
+
+
 # SONAR_QUBE SETUP
 docker run -dit --name sonarqube -p 9000:9000 sonarqube:lts-community
 
@@ -173,4 +188,21 @@ wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-k
 echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update -y
 sudo apt-get install trivy -y
+
+
+## TOMCAT
+--->site link
+https://downloads.apache.org/tomcat/tomcat-8/v8.5.100/bin/apache-tomcat-8.5.100-fulldocs.tar.gz.asc
+
+---->zip file 
+wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz
+
+--->extract
+tar -xvzf /opt/apache-tomcat-10.1.26.tar.gz
+
+--->rename
+mv apache-tomcat-10.1.26 tomcat (rename the apache file to tomcat for ease) 
+
+--->start service
+tomcat should be started from startup.sh file always when server is started 
 
