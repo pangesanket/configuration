@@ -1,9 +1,23 @@
 # CONFIGURATION
 
+# AWS CLI
+
+---> to remove cli 
+```
+sudo yum remove awscli
+```
+-
+```
+sudo apt install unzip -y
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws configure
+```
 
 # DOCKER
  
-###Add Docker's official GPG key:
+#### Add Docker's official GPG key:
 ```
 sudo apt-get update
 
@@ -16,7 +30,7 @@ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyring
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 ```
 
-   #####Add the repository to Apt sources:
+   #### Add the repository to Apt sources:
    
 ```
    echo \
@@ -27,7 +41,7 @@ sudo chmod a+r /etc/apt/keyrings/docker.asc
 sudo apt-get update
 ```
 
-####packages
+#### packages
 
 ```
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -90,7 +104,7 @@ sudo apt upgrade -y
 sudo apt install apt-transport-https curl -y
 ```
 
-   #####DOCKER
+   #### DOCKER
 
 ```
 sudo apt-get update
@@ -104,7 +118,7 @@ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyring
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 ```
 
- ######Add the repository to Apt sources:
+ #### Add the repository to Apt sources:
 
 ```
    echo \
@@ -120,7 +134,7 @@ sudo usermod -aG docker $USER
 
 sudo reboot
 ```
-  #####CONTAINER_D
+  #### CONTAINER_D
 
 ```
 sudo apt install containerd -y
@@ -134,7 +148,7 @@ sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/conf
 sudo systemctl restart containerd
 ```
 
-  #####KUBERNETES
+  #### KUBERNETES
 
 ```
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
@@ -146,14 +160,14 @@ sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
 ```
 
-   ####SWAP
+   #### SWAP
 
 ```
 sudo swapoff -a
 
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
-   #####KERNEL MODULE
+   #### KERNEL MODULE
 
 ```
 sudo modprobe overlay
@@ -169,7 +183,7 @@ EOF
 sudo sysctl --system
 ```
 
-   ######IN MASTER ONLY
+   #### IN MASTER ONLY
 
 ```
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 (ONLY MASTER-NODE)
@@ -227,7 +241,6 @@ docker run -dit --name sonarqube -p 9000:9000 sonarqube:lts-community
 
 ```
 sudo apt-get update
-
 #Install GNU software properties and curl packages
 
 sudo apt-get install -y gnupg software-properties-common -y
