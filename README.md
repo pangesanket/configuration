@@ -185,8 +185,10 @@ sudo sysctl --system
 
    #### IN MASTER ONLY
 
+   check ports in SG for kubernetes
+
 ```
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 (ONLY MASTER-NODE)
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
 
      mkdir -p $HOME/.kube
      sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -194,7 +196,7 @@ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 (ONLY MASTER-NODE)
 
      export KUBECONFIG=/path/to/cluster-config
 
-kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml (ONLY MASTER-NODE)
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml 
 ```
 
 kubectl get nodes
