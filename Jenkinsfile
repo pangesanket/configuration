@@ -261,6 +261,51 @@ pipeline {
             }
         }
     }
+    #############################################################################################
+    pipeline {
+    agent any
+    
+    tools{
+        nodejs 'nodejs'
+    }
+
+    stages {
+        stage('SCM Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/pangesanket/client-ashtika-frontend.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install -g serve'
+            }
+        }
+        stage('Build and push Image') {
+            steps {
+                withDockerRegistry(credentialsId: 'docker-cred', url: 'https://index.docker.io/v1/') {
+                    sh 'docker build -t pangesanket55/ashtika:${BUILD_NUMBER} .'
+                    sh 'docker tag pangesanket55/ashtika:${BUILD_NUMBER} pangesanket55/ashtika:latest'
+                    sh 'docker push pangesanket55/ashtika:latest'
+                }
+            }
+        }
+        stage('K8s Deploy') {
+            steps {
+                sh 'kubectl apply -f Deployment.yaml'
+                sh 'kubectl apply -f service.yaml'
+            }
+        }
+        stage('verify deploy'){
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: 'kubernetes-admin@kubernetes', credentialsId: 'kube-cred', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.23.71:6443') {
+                    sh 'kubectl apply -f Deployment.yaml'
+                    sh 'kubectl apply -f service.yaml'
+                }
+            }
+        }
+    }
+}
+
 }
 
 
