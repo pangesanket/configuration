@@ -196,7 +196,11 @@ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
      export KUBECONFIG=/path/to/cluster-config
 
-kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml 
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+```
+** Calico
+```
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico-policy-only.yaml -o calico.yaml
 ```
 
 kubectl get nodes
