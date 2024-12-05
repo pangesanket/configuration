@@ -200,7 +200,8 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 ```
 ** Calico
 ```
-curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico-policy-only.yaml -o calico.yaml
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
 ```
 
 kubectl get nodes
