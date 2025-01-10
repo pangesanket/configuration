@@ -6,7 +6,7 @@ pipeline {
         jdk 'jdk'
         maven 'maven3'
     }
-
+    
     stages {
         stage('SCM checkout') {
             steps {
@@ -18,6 +18,17 @@ pipeline {
                 sh 'mvn clean install -DskipTests=true'
             }
         }
+        stage('parallel'){
+            failFast true
+            parallel{
+                stage('test') {
+                    steps{
+                        sh 'mvn test'
+                    }
+                }
+            }
+        }
+        
         stage('Docker push') {
             steps {
                 script{
