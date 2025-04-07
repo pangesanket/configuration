@@ -314,5 +314,5 @@ mv apache-tomcat-10.1.26 tomcat (rename the apache file to tomcat for ease)
 --->start service
 
 ```
-tomcat should be started from startup.sh file always when server is started 
+tomcat should be started from startup.sh file always when server is started .
 ```
