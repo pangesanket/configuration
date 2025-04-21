@@ -591,6 +591,9 @@ kubeadm join 172.31.4.109:6443 --token ho3h0s.3mmairmvmglw8c0y \
 #######################################################
 
 
+multi-master multi-node
+
+
 30000-32767 port range for nodeport service to expose application
 https:workernodeIP:nodePortIP
 
