@@ -325,6 +325,6 @@ tomcat should be started from startup.sh file always when server is started .
 6443 Kubernetes
 8080 tomcat/Jenkins
 30000-32767 kubernetes node ports
-
+0-65535
 
 ```
