@@ -316,3 +316,11 @@ mv apache-tomcat-10.1.26 tomcat (rename the apache file to tomcat for ease)
 ```
 tomcat should be started from startup.sh file always when server is started .
 ```
+
+# Security Group PORTS
+```
+22 ssh
+80 HTTP
+443 HTTPS
+6443 Kubernetes
+```
