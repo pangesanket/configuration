@@ -11,6 +11,6 @@ spec:
     targetPort:
     nodePort:
   selectors:
-    matchlabs:
+    matchLabels:
       name:
       app: 
