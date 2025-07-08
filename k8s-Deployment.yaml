@@ -13,4 +13,4 @@ spec:
      matchlabels:
        name:
        app:
-   
+   resources:
