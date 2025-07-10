@@ -1,0 +1,55 @@
+🌐 Frontend Languages
+These run in the browser and handle the user interface.
+
+Language	       Role
+HTML	           Structure of the web page
+CSS	             Styling and layout
+JavaScript	     Dynamic behavior and interactivity
+TypeScript	     Superset of JavaScript (adds static typing)
+Dart	           Used with Flutter for web and mobile UI
+Elm / Svelte	   Modern reactive frontend alternatives
+
+Frameworks & Libraries (based on JavaScript/TypeScript):
+React
+Vue.js
+Angular
+Next.js (React-based full-stack)
+Svelte
+
+`````````````````````````````````````````````````````````````````````````````
+`````````````````````````````````````````````````````````````````````````````
+🖥️ Backend Languages
+These run on the server and handle logic, database access, authentication, etc.
+
+Language	                        Role / Common Use
+JavaScript / TypeScript         	Node.js for backend APIs
+Python	                          FastAPI, Django, Flask
+Java	                            Spring Boot, enterprise applications
+C#	                              .NET Core for web apps and APIs
+PHP	                              WordPress, Laravel
+Go (Golang)	                      Microservices, high-performance APIs
+Ruby	                            Ruby on Rails
+Rust	                            Systems programming, some web backends
+Kotlin	                          Backend services (often with Ktor or Spring)
+Scala	                            Functional backends, often with Play or Akka
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
+🧩 Full-Stack Combinations
+Frontend	                    Backend
+React + Node.js	           (MERN stack)
+Angular + Java	           (Spring Boot)
+Vue.js + Laravel	         (PHP backend)
+Svelte + Go	               (Microservices)
+Flutter Web + Dart	       Dart backend
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+
+
+
+
+
+
+
