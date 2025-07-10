@@ -1,12 +1,14 @@
 FROM openjdk-11-jre
 
-WORKING DIRECTORY /app
+WORKDIR /app
+
+COPY package*.json
 
 RUN apt update -y
 
-EXPOSE 8090
+COPY . .
 
-COPY path to path
+EXPOSE 3000
 
 ENV 
 
@@ -14,3 +16,4 @@ LABEL
 
 CMD ["." ,"."]
 
+`````````````````````````````````````````````````````````
