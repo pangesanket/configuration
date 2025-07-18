@@ -48,6 +48,15 @@ Flutter Web + Dart	       Dart backend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
 
 
+REQUIREMENT files 
+
+pom.xml       java
+package.json  nodejs
+.NET          .csproj
+python        requirement.txt
+
+
+
 
 
 
