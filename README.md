@@ -328,3 +328,33 @@ tomcat should be started from startup.sh file always when server is started .
 0-65535
 
 ```
+
+# PROMETHEUS
+```
+wget https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
+tar -zxvf prometheus-3.5.0.linux-amd64.tar.gz
+```
+```
+sudo vi /etc/systemd/system/prometheus.service
+```
+```
+[Unit]
+Description=Prometheus Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+User=root
+Restart=on-failure
+
+ExecStart=/root/prometheus-3.5.0.linux-amd64/prometheus --config.file=/root/prometheus-3.5.0.linux-amd64/prometheus.yml
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+sudo systemctl daemon-reload
+sudo systemctl status prometheus
+sudo systemctl start prometheus
+```
