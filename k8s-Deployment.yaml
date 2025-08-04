@@ -1,16 +1,81 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 
+  name: my-app-deployment
   labels:
-    name:
-    app: 
+    app: my-app
 spec:
-   replicas:
-   template: (pod-definition.yaml)
-   
-   selectors:
-     matchlabels:
-       name:
-       app:
-   resources:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: app-container
+          image: busybox
+          command: [ "sh", "-c", "while true; do echo App running; sleep 10; done" ]
+
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: APP_ENV
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+            - name: DB_HOST
+              value: mysql
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_NAME
+              value: myappdb
+
+          volumeMounts:
+            - name: config-vol
+              mountPath: /etc/config
+            - name: secret-vol
+              mountPath: /etc/secret
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /etc/config/APP_ENV
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /etc/secret/username
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+      volumes:
+        - name: config-vol
+          configMap:
+            name: my-config
+        - name: secret-vol
+          secret:
+            secretName: db-secret
