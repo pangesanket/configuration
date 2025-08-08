@@ -2,3 +2,6 @@ ANSIBLE Notes
 1 inventory
 2 modules
 3 ansible.cfg
+  playbooks
+  Roles (Galaxy-init)
+  Hosts 
