@@ -11,9 +11,9 @@ spec:
     image:
     ports:
       - containerPort: 80
-    env:
-      name:
-      value:
-      name:
-      value:
-      
+    envFrom:
+      - name: frontend
+        valueFrom:
+          SecretKeyRef:
+           name:
+           key:
