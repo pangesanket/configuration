@@ -326,6 +326,12 @@ tomcat should be started from startup.sh file always when server is started .
 8080 tomcat/Jenkins
 30000-32767 kubernetes node ports
 0-65535
+3306 MYSQL
+5432 PostgreSQL
+2375/6 Docker
+9000 SonarQube
+3000 Grafana
+9090 Prometheues
 
 ```
 
