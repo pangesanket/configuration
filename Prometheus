@@ -1,0 +1,70 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                      INSTALL PROMETHEUS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# CREATE USER
+sudo useradd --no-create-home --shell /bin/false prometheus
+
+@ INSTALL PROMETHEUS
+cd /tmp
+wget https://github.com/prometheus/prometheus/releases/download/v2.49.0/prometheus-2.49.0.linux-amd64.tar.gz
+tar xvf prometheus-2.49.0.linux-amd64.tar.gz
+
+# COPY FILES
+sudo mkdir /etc/prometheus
+sudo mkdir /var/lib/prometheus
+
+sudo cp prometheus-2.49.0.linux-amd64/prometheus /usr/local/bin/
+sudo cp prometheus-2.49.0.linux-amd64/promtool /usr/local/bin/
+sudo cp -r prometheus-2.49.0.linux-amd64/consoles /etc/prometheus
+sudo cp -r prometheus-2.49.0.linux-amd64/console_libraries /etc/prometheus
+sudo cp prometheus-2.49.0.linux-amd64/prometheus.yml /etc/prometheus
+
+# SET PERMISSIONS
+sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+
+# CREATE SYSTEM SERVICE
+sudo nano /etc/systemd/system/prometheus.service
+
+# INSERT
+[Unit]
+Description=Prometheus Monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/var/lib/prometheus
+
+[Install]
+WantedBy=multi-user.target
+
+
+# START PROMETHEUS
+sudo systemctl daemon-reload
+sudo systemctl enable prometheus
+sudo systemctl start prometheus
+
+# ACCESS 
+public ip:9090
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                              UNINSTALL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sudo systemctl stop prometheus
+sudo systemctl disable prometheus
+
+sudo rm -f /etc/systemd/system/prometheus.service
+sudo systemctl daemon-reload
+
+sudo rm -f /usr/local/bin/prometheus
+sudo rm -f /usr/local/bin/promtool
+
+sudo rm -rf /etc/prometheus
+sudo rm -rf /var/lib/prometheus
+
+sudo userdel prometheus
+
+prometheus --version
